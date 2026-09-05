@@ -143,7 +143,7 @@ export default function ToolsTab() {
                 onClick={() => setOpenCategory((prev) => (prev === cat.key ? null : cat.key))}
               >
                 <span>{cat.label}</span>
-                <span className="accordion-chev">{openCategory === cat.key ? "−" : "+"}</span>
+                <span className="accordion-chev">{openCategory === cat.key ? "▴" : "▾"}</span>
               </button>
 
               {openCategory === cat.key && (
@@ -155,7 +155,7 @@ export default function ToolsTab() {
                       <div className="accordion-sub" key={subKey}>
                         <button className="accordion-sub-head" onClick={() => setOpenSub(isOpen ? null : subKey)}>
                           <span>{sub.title}</span>
-                          <span className="accordion-chev">{isOpen ? "−" : "+"}</span>
+                          <span className="accordion-chev">{isOpen ? "▴" : "▾"}</span>
                         </button>
                         {isOpen && <p className="accordion-sub-body">{sub.body}</p>}
                       </div>
