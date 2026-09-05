@@ -21,7 +21,7 @@ const DEFAULT_COMPANY_INFO: CompanyInfo[] = [
       "Flyers and story posts sprinkled in before and during event week",
       "Flagship event (like a country prom) targeted at least once a quarter",
     ],
-    next_focus_date: null,
+    next_focus_date: "2026-10-13",
   },
   {
     key: "wec",
@@ -38,7 +38,7 @@ const DEFAULT_COMPANY_INFO: CompanyInfo[] = [
       "Direction: more concerts, a learn-to-rope night, hangout nights, indoor pickleball, a year-round western events calendar",
       "Dance Co's Instagram can promote WEC events, only when they're on-brand for that audience",
     ],
-    next_focus_date: null,
+    next_focus_date: "2026-09-13",
   },
   {
     key: "smb",

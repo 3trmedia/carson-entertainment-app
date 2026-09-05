@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import Image from "next/image";
 import { COMPANY_NAMES, COMPANY_THUMB, CompanyInfo, CompanyKey, FocusState } from "@/lib/types";
 
@@ -39,6 +39,15 @@ export default function FocusTab({
   const [detailDraft, setDetailDraft] = useState<CompanyInfo | null>(null);
   const [detailStatus, setDetailStatus] = useState("");
   const [detailSaving, setDetailSaving] = useState(false);
+
+  const rotationOrder = useMemo(() => {
+    return [...companyInfo].sort((a, b) => {
+      if (!a.next_focus_date && !b.next_focus_date) return 0;
+      if (!a.next_focus_date) return 1;
+      if (!b.next_focus_date) return -1;
+      return a.next_focus_date.localeCompare(b.next_focus_date);
+    });
+  }, [companyInfo]);
 
   function openFocusEditor() {
     setFocusDraft(focus);
@@ -205,7 +214,7 @@ export default function FocusTab({
           <h2 className="block-title">Focus rotation</h2>
         </div>
         <div className="rotation-list">
-          {companyInfo.map((c) => (
+          {rotationOrder.map((c) => (
             <div className="rotation-card" key={c.key}>
               <div className="rotation-row">
                 <button
