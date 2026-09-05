@@ -1,15 +1,15 @@
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Barlow:wght@400;500;600;700&display=swap');
 
 :root {
-  --dark: #0c0c0c;
-  --mid: #151515;
-  --warm: #202020;
-  --maroon: #3a0f10;
+  --dark: #170a09;
+  --mid: #241110;
+  --warm: #3a1717;
+  --maroon: #4d1616;
   --gold: #a51c1c;
   --amber: #bf2222;
   --cream: #f2f0f0;
   --text: #e0dbdb;
-  --muted: #8e8888;
+  --muted: #9a8686;
   --line: rgba(224, 219, 219, 0.14);
   --card: var(--mid);
   --card-gradient: linear-gradient(160deg, var(--mid) 0%, var(--maroon) 140%);
@@ -142,7 +142,7 @@ body {
 .focus-banner-overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(180deg, rgba(12, 12, 12, 0.55), rgba(58, 15, 16, 0.82));
+  background: linear-gradient(180deg, rgba(23, 10, 9, 0.55), rgba(77, 22, 22, 0.85));
 }
 .focus-banner-content {
   position: relative;
@@ -660,7 +660,7 @@ body {
 .login-bg-overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(180deg, rgba(12, 12, 12, 0.65), rgba(58, 15, 16, 0.88));
+  background: linear-gradient(180deg, rgba(23, 10, 9, 0.65), rgba(77, 22, 22, 0.9));
   z-index: 1;
 }
 .login-card {
@@ -722,7 +722,7 @@ body {
 .modal-backdrop {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.65);
+  background: rgba(10, 4, 4, 0.7);
   display: flex;
   align-items: center;
   justify-content: center;
