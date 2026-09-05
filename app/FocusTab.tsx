@@ -3,13 +3,13 @@
 import { useMemo, useState } from "react";
 import Image from "next/image";
 import { COMPANY_NAMES, COMPANY_THUMB, CompanyInfo, CompanyKey, FocusState } from "@/lib/types";
+import { currentFocusCompany, currentFocusPeriodStart, nextStartDateFor } from "@/lib/rotation";
 
-const COMPANY_KEYS: CompanyKey[] = ["sdc", "wec", "smb"];
-
-function formatDate(iso: string | null) {
-  if (!iso) return "No date set";
-  const d = new Date(iso + "T00:00:00");
+function formatMonthDay(d: Date) {
   return d.toLocaleDateString(undefined, { month: "long", day: "numeric" });
+}
+function formatMonthYear(d: Date) {
+  return d.toLocaleDateString(undefined, { month: "long", year: "numeric" });
 }
 
 export default function FocusTab({
@@ -25,77 +25,52 @@ export default function FocusTab({
   isAdmin: boolean;
   onRequestAdmin: () => void;
 }) {
-  const [focus, setFocus] = useState(initialFocus);
+  const [goals, setGoals] = useState(initialFocus.goals);
   const [editingFocus, setEditingFocus] = useState(false);
-  const [focusDraft, setFocusDraft] = useState(initialFocus);
+  const [goalsDraft, setGoalsDraft] = useState(initialFocus.goals);
   const [focusStatus, setFocusStatus] = useState("");
   const [focusSaving, setFocusSaving] = useState(false);
 
   const [openCompany, setOpenCompany] = useState<CompanyKey | null>(null);
-  const [editingDateFor, setEditingDateFor] = useState<CompanyKey | null>(null);
-  const [dateDraft, setDateDraft] = useState("");
 
   const [editingDetailFor, setEditingDetailFor] = useState<CompanyKey | null>(null);
   const [detailDraft, setDetailDraft] = useState<CompanyInfo | null>(null);
   const [detailStatus, setDetailStatus] = useState("");
   const [detailSaving, setDetailSaving] = useState(false);
 
+  const activeCompany = useMemo(() => currentFocusCompany(), []);
+  const periodStart = useMemo(() => currentFocusPeriodStart(), []);
+  const activeLabel = useMemo(() => COMPANY_NAMES[activeCompany], [activeCompany]);
+  const activeMonthLabel = useMemo(() => formatMonthYear(periodStart), [periodStart]);
+
   const rotationOrder = useMemo(() => {
-    return [...companyInfo].sort((a, b) => {
-      if (!a.next_focus_date && !b.next_focus_date) return 0;
-      if (!a.next_focus_date) return 1;
-      if (!b.next_focus_date) return -1;
-      return a.next_focus_date.localeCompare(b.next_focus_date);
-    });
+    return [...companyInfo].sort(
+      (a, b) => nextStartDateFor(a.key).getTime() - nextStartDateFor(b.key).getTime()
+    );
   }, [companyInfo]);
 
   function openFocusEditor() {
-    setFocusDraft(focus);
+    setGoalsDraft(goals);
     setFocusStatus("");
     setEditingFocus(true);
   }
 
   async function saveFocus() {
-    const month = focusDraft.month.trim();
-    if (!month || !focusDraft.company) {
-      setFocusStatus("Choose a company and month.");
-      return;
-    }
     setFocusSaving(true);
     setFocusStatus("Saving…");
     const res = await fetch("/api/focus", {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ company: focusDraft.company, month, goals: focusDraft.goals }),
+      body: JSON.stringify({ company: activeCompany, month: activeMonthLabel, goals: goalsDraft }),
     });
     setFocusSaving(false);
     if (!res.ok) {
       setFocusStatus("Could not save. Try again.");
       return;
     }
-    setFocus({ ...focusDraft, month });
+    setGoals(goalsDraft);
     setEditingFocus(false);
     setFocusStatus("");
-  }
-
-  function startEditDate(c: CompanyInfo) {
-    if (!isAdmin) {
-      onRequestAdmin();
-      return;
-    }
-    setEditingDateFor(c.key);
-    setDateDraft(c.next_focus_date ?? "");
-  }
-
-  async function saveDate(c: CompanyInfo) {
-    const res = await fetch("/api/company-info", {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ ...c, next_focus_date: dateDraft || null }),
-    });
-    if (!res.ok) return;
-    setCompanyInfo((prev) => prev.map((x) => (x.key === c.key ? { ...x, next_focus_date: dateDraft || null } : x)));
-    setEditingDateFor(null);
   }
 
   function startEditDetail(c: CompanyInfo) {
@@ -134,14 +109,8 @@ export default function FocusTab({
           <div className="focus-banner-overlay" />
         </div>
         <div className="focus-banner-content">
-          {focus.company ? (
-            <>
-              <p className="focus-banner-month">{focus.month || "This month"}</p>
-              <p className="focus-banner-company">{COMPANY_NAMES[focus.company]}</p>
-            </>
-          ) : (
-            <p className="focus-banner-empty">No focus company set yet.</p>
-          )}
+          <p className="focus-banner-month">{activeMonthLabel}</p>
+          <p className="focus-banner-company">{activeLabel}</p>
         </div>
       </section>
 
@@ -153,9 +122,9 @@ export default function FocusTab({
           </button>
         </div>
         <div className="goals-card">
-          {focus.goals && focus.goals.length ? (
+          {goals && goals.length ? (
             <ul>
-              {focus.goals.map((g, i) => (
+              {goals.map((g, i) => (
                 <li key={i}>{g}</li>
               ))}
             </ul>
@@ -166,34 +135,15 @@ export default function FocusTab({
 
         {editingFocus && (
           <div className="edit-form">
-            <div className="field">
-              <label>Focus company</label>
-              <select
-                value={focusDraft.company || "sdc"}
-                onChange={(e) => setFocusDraft({ ...focusDraft, company: e.target.value as CompanyKey })}
-              >
-                {COMPANY_KEYS.map((k) => (
-                  <option key={k} value={k}>
-                    {COMPANY_NAMES[k]}
-                  </option>
-                ))}
-              </select>
-            </div>
-            <div className="field">
-              <label>Month</label>
-              <input
-                type="text"
-                placeholder="e.g. September 2026"
-                value={focusDraft.month}
-                onChange={(e) => setFocusDraft({ ...focusDraft, month: e.target.value })}
-              />
-            </div>
+            <p className="empty-note" style={{ marginBottom: 10 }}>
+              Goals for {activeLabel}&apos;s turn ({activeMonthLabel}) — the focus company rotates automatically.
+            </p>
             <div className="field">
               <label>Goals (one per line)</label>
               <textarea
                 placeholder={"e.g.\nLock the date for the rodeo event\nPost one extra video per week"}
-                value={focusDraft.goals.join("\n")}
-                onChange={(e) => setFocusDraft({ ...focusDraft, goals: e.target.value.split("\n") })}
+                value={goalsDraft.join("\n")}
+                onChange={(e) => setGoalsDraft(e.target.value.split("\n"))}
               />
             </div>
             <div className="form-actions">
@@ -224,18 +174,9 @@ export default function FocusTab({
                   <Image src={COMPANY_THUMB[c.key]} alt="" width={40} height={40} className="rotation-thumb" />
                   <span className="rotation-name">{c.label}</span>
                 </button>
-                {editingDateFor === c.key ? (
-                  <div className="rotation-edit">
-                    <input type="date" value={dateDraft} onChange={(e) => setDateDraft(e.target.value)} />
-                    <button className="text-btn" onClick={() => saveDate(c)}>
-                      Save
-                    </button>
-                  </div>
-                ) : (
-                  <button className="rotation-date" onClick={() => startEditDate(c)}>
-                    {formatDate(c.next_focus_date)}
-                  </button>
-                )}
+                <span className="rotation-date">
+                  {c.key === activeCompany ? "Now" : formatMonthDay(nextStartDateFor(c.key))}
+                </span>
               </div>
 
               {openCompany === c.key && (
