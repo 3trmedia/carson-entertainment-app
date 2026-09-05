@@ -34,6 +34,7 @@ function LoginForm() {
       <Image src="/images/hero.jpg" alt="" fill priority sizes="100vw" className="login-bg-img" />
       <div className="login-bg-overlay" />
       <form className="login-card" onSubmit={submit}>
+        <Image src="/icon-192.png" alt="" width={44} height={44} className="login-logo" />
         <p className="eyebrow">Carson Portfolio</p>
         <h1 className="login-title">Manager Dashboard</h1>
         <label htmlFor="passcode">Passcode</label>

@@ -54,6 +54,15 @@ body {
   background: var(--dark);
   border-bottom: 1px solid var(--warm);
 }
+.top-bar-brand {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+.top-bar-logo {
+  border-radius: 5px;
+  flex-shrink: 0;
+}
 .top-bar-title {
   font-family: "Playfair Display", serif;
   font-weight: 700;
@@ -683,6 +692,11 @@ body {
   border-right: 1px solid var(--warm);
   border-bottom: 1px solid var(--warm);
   box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5);
+}
+.login-logo {
+  display: block;
+  border-radius: 8px;
+  margin: 0 0 12px;
 }
 .eyebrow {
   font-size: 12px;

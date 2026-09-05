@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { CarsonEvent, CompanyInfo, FocusState } from "@/lib/types";
 import AdminGate from "./AdminGate";
@@ -67,7 +68,10 @@ export default function AppShell({
   return (
     <div className="app-shell">
       <header className="top-bar">
-        <span className="top-bar-title">Marketing Team Dashboard</span>
+        <span className="top-bar-brand">
+          <Image src="/icon-192.png" alt="" width={26} height={26} className="top-bar-logo" />
+          <span className="top-bar-title">Marketing Team Dashboard</span>
+        </span>
         <button className="admin-pin" onClick={() => setShowAdminGate(true)} aria-label="Admin unlock">
           {isAdmin ? "✓" : "⚙"}
         </button>
