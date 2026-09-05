@@ -103,7 +103,9 @@ export default function FocusTab({
 
   return (
     <div className="tab-pane">
-      <h2 className="page-title">Focus Company</h2>
+      <div className="block-head">
+        <h2 className="block-title">Focus Company</h2>
+      </div>
       <section className="focus-banner">
         <div className="focus-banner-bg">
           <Image src="/images/hero.jpg" alt="" fill sizes="560px" priority className="focus-banner-img" />
