@@ -128,9 +128,7 @@ export default function ToolsTab() {
   return (
     <div className="tab-pane">
       <section className="block">
-        <div className="block-head">
-          <h2 className="block-title">Tools</h2>
-        </div>
+        <h2 className="page-title">Tools &amp; Resources</h2>
         <p className="empty-note tools-intro">
           Reference material to keep moving on your own company, even outside your focus month.
         </p>

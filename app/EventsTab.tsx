@@ -107,6 +107,7 @@ export default function EventsTab({
   return (
     <div className="tab-pane">
       <section className="block">
+        <h2 className="page-title">Upcoming Events</h2>
         <div className="calendar-legend">
           {companyInfo.map((c) => (
             <span className="legend-item" key={c.key}>
