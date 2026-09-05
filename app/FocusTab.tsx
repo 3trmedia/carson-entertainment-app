@@ -1,7 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { COMPANY_NAMES, CompanyInfo, CompanyKey, FocusState } from "@/lib/types";
+import Image from "next/image";
+import { COMPANY_NAMES, COMPANY_THUMB, CompanyInfo, CompanyKey, FocusState } from "@/lib/types";
 
 const COMPANY_KEYS: CompanyKey[] = ["sdc", "wec", "smb"];
 
@@ -119,14 +120,20 @@ export default function FocusTab({
   return (
     <div className="tab-pane">
       <section className="focus-banner">
-        {focus.company ? (
-          <>
-            <p className="focus-banner-month">{focus.month || "This month"}</p>
-            <p className="focus-banner-company">{COMPANY_NAMES[focus.company]}</p>
-          </>
-        ) : (
-          <p className="focus-banner-empty">No focus company set yet.</p>
-        )}
+        <div className="focus-banner-bg">
+          <Image src="/images/hero.jpg" alt="" fill sizes="560px" priority className="focus-banner-img" />
+          <div className="focus-banner-overlay" />
+        </div>
+        <div className="focus-banner-content">
+          {focus.company ? (
+            <>
+              <p className="focus-banner-month">{focus.month || "This month"}</p>
+              <p className="focus-banner-company">{COMPANY_NAMES[focus.company]}</p>
+            </>
+          ) : (
+            <p className="focus-banner-empty">No focus company set yet.</p>
+          )}
+        </div>
       </section>
 
       <section className="block">
@@ -201,8 +208,12 @@ export default function FocusTab({
           {companyInfo.map((c) => (
             <div className="rotation-card" key={c.key}>
               <div className="rotation-row">
-                <button className="rotation-name" onClick={() => setOpenCompany((prev) => (prev === c.key ? null : c.key))}>
-                  {c.label}
+                <button
+                  className="rotation-name-btn"
+                  onClick={() => setOpenCompany((prev) => (prev === c.key ? null : c.key))}
+                >
+                  <Image src={COMPANY_THUMB[c.key]} alt="" width={40} height={40} className="rotation-thumb" />
+                  <span className="rotation-name">{c.label}</span>
                 </button>
                 {editingDateFor === c.key ? (
                   <div className="rotation-edit">

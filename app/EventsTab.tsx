@@ -1,7 +1,8 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { CarsonEvent, COMPANY_COLORS, COMPANY_NAMES, CompanyInfo, CompanyKey, MAX_EVENTS_PER_COMPANY_PER_MONTH } from "@/lib/types";
+import Image from "next/image";
+import { CarsonEvent, COMPANY_COLORS, COMPANY_NAMES, COMPANY_THUMB, CompanyInfo, CompanyKey, MAX_EVENTS_PER_COMPANY_PER_MONTH } from "@/lib/types";
 
 const COMPANY_KEYS: CompanyKey[] = ["sdc", "wec", "smb"];
 const WEEKDAYS = ["S", "M", "T", "W", "T", "F", "S"];
@@ -109,6 +110,7 @@ export default function EventsTab({
         <div className="calendar-legend">
           {companyInfo.map((c) => (
             <span className="legend-item" key={c.key}>
+              <Image src={COMPANY_THUMB[c.key]} alt="" width={22} height={22} className="legend-thumb" />
               <span className="legend-dot" style={{ background: COMPANY_COLORS[c.key] }} />
               {c.label}
               <span className="legend-count">

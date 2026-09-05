@@ -2,6 +2,7 @@
 
 import { useState, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
+import Image from "next/image";
 
 function LoginForm() {
   const router = useRouter();
@@ -30,9 +31,11 @@ function LoginForm() {
 
   return (
     <div className="login-wrap">
+      <Image src="/images/hero.jpg" alt="" fill priority sizes="100vw" className="login-bg-img" />
+      <div className="login-bg-overlay" />
       <form className="login-card" onSubmit={submit}>
         <p className="eyebrow">Carson Portfolio</p>
-        <h1 className="login-title">Monthly Focus Board</h1>
+        <h1 className="login-title">Manager Dashboard</h1>
         <label htmlFor="passcode">Passcode</label>
         <input
           id="passcode"

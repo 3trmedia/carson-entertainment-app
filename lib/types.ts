@@ -15,14 +15,6 @@ export interface CompanyInfo {
   next_focus_date: string | null;
 }
 
-export interface Idea {
-  id: string;
-  name: string | null;
-  company: CompanyKey | "general";
-  text: string;
-  created_at: string;
-}
-
 export interface CarsonEvent {
   id: string;
   company: CompanyKey;
@@ -43,6 +35,12 @@ export const COMPANY_COLORS: Record<CompanyKey, string> = {
   sdc: "#d4a72c",
   wec: "#5b8def",
   smb: "#4caf6d",
+};
+
+export const COMPANY_THUMB: Record<CompanyKey, string> = {
+  sdc: "/images/sdc-thumb.jpg",
+  wec: "/images/wec-thumb.jpg",
+  smb: "/images/smb-thumb.jpg",
 };
 
 export const MAX_EVENTS_PER_COMPANY_PER_MONTH = 3;

@@ -2,30 +2,28 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { CarsonEvent, CompanyInfo, FocusState, Idea } from "@/lib/types";
+import { CarsonEvent, CompanyInfo, FocusState } from "@/lib/types";
 import AdminGate from "./AdminGate";
 import FocusTab from "./FocusTab";
-import IdeasTab from "./IdeasTab";
+import ToolsTab from "./ToolsTab";
 import EventsTab from "./EventsTab";
 
-type Tab = "focus" | "ideas" | "events";
+type Tab = "focus" | "tools" | "events";
 
 const TABS: { key: Tab; label: string; icon: string }[] = [
   { key: "focus", label: "Focus", icon: "◉" },
-  { key: "ideas", label: "Ideas", icon: "✦" },
+  { key: "tools", label: "Tools", icon: "✦" },
   { key: "events", label: "Events", icon: "▦" },
 ];
 
 export default function AppShell({
   initialFocus,
   initialCompanyInfo,
-  initialIdeas,
   initialEvents,
   isAdmin,
 }: {
   initialFocus: FocusState;
   initialCompanyInfo: CompanyInfo[];
-  initialIdeas: Idea[];
   initialEvents: CarsonEvent[];
   isAdmin: boolean;
 }) {
@@ -53,7 +51,7 @@ export default function AppShell({
             onRequestAdmin={() => setShowAdminGate(true)}
           />
         )}
-        {tab === "ideas" && <IdeasTab initialIdeas={initialIdeas} />}
+        {tab === "tools" && <ToolsTab />}
         {tab === "events" && <EventsTab initialEvents={initialEvents} companyInfo={companyInfo} />}
       </main>
 

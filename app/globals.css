@@ -4,6 +4,7 @@
   --dark: #0c0c0c;
   --mid: #151515;
   --warm: #202020;
+  --maroon: #3a0f10;
   --gold: #a51c1c;
   --amber: #bf2222;
   --cream: #f2f0f0;
@@ -11,6 +12,7 @@
   --muted: #8e8888;
   --line: rgba(224, 219, 219, 0.14);
   --card: var(--mid);
+  --card-gradient: linear-gradient(160deg, var(--mid) 0%, var(--maroon) 140%);
   --safe-top: env(safe-area-inset-top, 0px);
   --safe-bottom: env(safe-area-inset-bottom, 0px);
 }
@@ -119,12 +121,32 @@ body {
 
 /* ---------- Focus tab ---------- */
 .focus-banner {
-  background: var(--mid);
-  border: 1px solid var(--line);
-  border-top: 3px solid var(--gold);
-  border-radius: 3px;
-  padding: 18px 20px;
+  position: relative;
+  border-radius: 4px;
+  overflow: hidden;
   margin-bottom: 24px;
+  min-height: 150px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--warm);
+  border-top: 3px solid var(--gold);
+}
+.focus-banner-bg {
+  position: absolute;
+  inset: 0;
+}
+.focus-banner-img {
+  object-fit: cover;
+}
+.focus-banner-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(12, 12, 12, 0.55), rgba(58, 15, 16, 0.82));
+}
+.focus-banner-content {
+  position: relative;
+  padding: 22px 20px;
   text-align: center;
 }
 .focus-banner-month {
@@ -132,19 +154,22 @@ body {
   font-size: 13px;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: var(--muted);
+  color: var(--cream);
+  opacity: 0.85;
 }
 .focus-banner-company {
   margin: 0;
   font-family: "Playfair Display", serif;
-  font-size: 26px;
+  font-size: 27px;
   font-weight: 700;
   color: var(--cream);
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
 }
 .focus-banner-empty {
   margin: 0;
-  color: var(--muted);
+  color: var(--cream);
   font-style: italic;
+  opacity: 0.85;
 }
 
 .block {
@@ -186,7 +211,7 @@ body {
 }
 
 .goals-card {
-  background: var(--card);
+  background: var(--card-gradient);
   border: 1px solid var(--line);
   border-left: 3px solid var(--gold);
   border-radius: 3px;
@@ -298,7 +323,7 @@ body {
   gap: 10px;
 }
 .rotation-card {
-  background: var(--card);
+  background: var(--card-gradient);
   border: 1px solid var(--line);
   border-radius: 3px;
   overflow: hidden;
@@ -308,18 +333,29 @@ body {
   align-items: center;
   justify-content: space-between;
   gap: 10px;
-  padding: 14px 16px;
+  padding: 12px 16px;
 }
-.rotation-name {
+.rotation-name-btn {
+  display: flex;
+  align-items: center;
+  gap: 12px;
   background: none;
   border: none;
   cursor: pointer;
+  padding: 0;
+  text-align: left;
+}
+.rotation-thumb {
+  border-radius: 6px;
+  object-fit: cover;
+  flex-shrink: 0;
+  border: 1px solid var(--warm);
+}
+.rotation-name {
   font-family: "Playfair Display", serif;
   font-size: 16px;
   font-weight: 700;
   color: var(--cream);
-  text-align: left;
-  padding: 0;
 }
 .rotation-date {
   background: none;
@@ -376,135 +412,80 @@ body {
   color: var(--text);
 }
 
-/* ---------- Ideas tab ---------- */
-.toolkit-list {
+/* ---------- Tools tab ---------- */
+.tools-intro {
+  margin-bottom: 16px;
+}
+.accordion {
   display: flex;
   flex-direction: column;
   gap: 10px;
 }
-.toolkit-card {
-  background: var(--card);
+.accordion-item {
+  background: var(--card-gradient);
   border: 1px solid var(--line);
   border-left: 3px solid var(--gold);
   border-radius: 3px;
-  padding: 12px 16px;
+  overflow: hidden;
 }
-.toolkit-card h4 {
-  margin: 0 0 6px;
-  font-size: 13px;
-  color: var(--cream);
-}
-.toolkit-card p {
-  margin: 0;
-  font-size: 13.5px;
-  color: var(--muted);
-}
-
-.idea-board {
-  background: var(--mid);
-  background-image: radial-gradient(rgba(165, 28, 28, 0.12) 1px, transparent 1px);
-  background-size: 14px 14px;
-  border-radius: 4px;
-  padding: 18px;
-  border: 1px solid var(--warm);
-}
-.idea-form {
-  background: var(--dark);
-  border: 1px solid var(--warm);
-  border-radius: 3px;
-  padding: 16px;
-  margin-bottom: 16px;
-}
-.idea-form .row {
-  display: flex;
-  gap: 12px;
-  flex-wrap: wrap;
-}
-.idea-form .row .field {
-  flex: 1;
-  min-width: 130px;
-}
-.filter-row {
+.accordion-head {
+  width: 100%;
   display: flex;
   align-items: center;
-  gap: 8px;
-  margin-bottom: 14px;
-  flex-wrap: wrap;
-}
-.filter-row span {
-  color: var(--muted);
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-}
-.chip {
-  font-family: "Barlow", sans-serif;
-  font-size: 12px;
-  font-weight: 700;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-  padding: 6px 12px;
-  border-radius: 2px;
-  border: 1px solid var(--warm);
-  background: transparent;
-  color: var(--text);
-  cursor: pointer;
-}
-.chip.active {
-  background: var(--gold);
-  color: var(--cream);
-  border-color: var(--gold);
-}
-
-.notes-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
-  gap: 14px;
-}
-.note {
-  background: var(--dark);
-  border: 1px solid var(--warm);
-  border-top: 3px solid var(--gold);
-  padding: 14px 14px 12px;
-  border-radius: 2px;
-}
-.note .note-company {
-  display: inline-block;
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: var(--gold);
-  margin-bottom: 8px;
-}
-.note p.note-text {
-  margin: 0 0 10px;
-  font-size: 14.5px;
-  color: var(--text);
-}
-.note .note-foot {
-  display: flex;
   justify-content: space-between;
-  align-items: center;
-  font-size: 12px;
-  color: var(--muted);
-}
-.note .del {
   background: none;
   border: none;
-  color: var(--muted);
   cursor: pointer;
-  font-size: 12px;
-  text-decoration: underline;
+  padding: 14px 16px;
+  font-family: "Playfair Display", serif;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--cream);
+  text-align: left;
 }
-.note .del:hover {
-  color: var(--amber);
-}
-.no-ideas {
+.accordion-chev {
+  font-family: "Barlow", sans-serif;
   color: var(--muted);
-  font-style: italic;
-  padding: 10px 4px;
+  font-size: 15px;
+}
+.accordion-body {
+  padding: 0 12px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.accordion-sub {
+  background: rgba(0, 0, 0, 0.25);
+  border: 1px solid var(--warm);
+  border-radius: 3px;
+  overflow: hidden;
+}
+.accordion-sub-head {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 10px 14px;
+  font-family: "Barlow", sans-serif;
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--text);
+  text-align: left;
+}
+.accordion-sub-body {
+  margin: 0;
+  padding: 0 14px 12px 30px;
+  font-size: 13px;
+  color: var(--muted);
+}
+.accordion-sub-body li {
+  margin-bottom: 6px;
+}
+.accordion-sub-body li:last-child {
+  margin-bottom: 0;
 }
 
 /* ---------- Events tab ---------- */
@@ -520,6 +501,11 @@ body {
   gap: 6px;
   font-size: 12.5px;
   color: var(--text);
+}
+.legend-thumb {
+  border-radius: 4px;
+  object-fit: cover;
+  border: 1px solid var(--warm);
 }
 .legend-dot {
   width: 9px;
@@ -618,7 +604,7 @@ body {
   display: flex;
   align-items: flex-start;
   gap: 10px;
-  background: var(--dark);
+  background: var(--card-gradient);
   border: 1px solid var(--warm);
   border-radius: 3px;
   padding: 10px 12px;
@@ -658,15 +644,29 @@ body {
 
 /* ---------- Login ---------- */
 .login-wrap {
+  position: relative;
   min-height: 100dvh;
   display: flex;
   align-items: center;
   justify-content: center;
   background: var(--dark);
   padding: 20px;
+  overflow: hidden;
+}
+.login-bg-img {
+  object-fit: cover;
+  z-index: 0;
+}
+.login-bg-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(12, 12, 12, 0.65), rgba(58, 15, 16, 0.88));
+  z-index: 1;
 }
 .login-card {
-  background: var(--mid);
+  position: relative;
+  z-index: 2;
+  background: var(--card-gradient);
   border-radius: 3px;
   padding: 30px 28px;
   max-width: 360px;
@@ -676,6 +676,14 @@ body {
   border-right: 1px solid var(--warm);
   border-bottom: 1px solid var(--warm);
   box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5);
+}
+.eyebrow {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--muted);
+  margin: 0 0 6px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
 }
 .login-title {
   font-family: "Playfair Display", serif;
@@ -722,7 +730,7 @@ body {
   z-index: 50;
 }
 .modal-card {
-  background: var(--mid);
+  background: var(--card-gradient);
   border-radius: 3px;
   padding: 22px 20px;
   max-width: 340px;
