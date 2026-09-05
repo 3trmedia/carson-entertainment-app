@@ -5,6 +5,15 @@ import AppShell from "./AppShell";
 
 export const dynamic = "force-dynamic";
 
+const DEFAULT_DALTON_PAGE: DaltonPage = {
+  posting_schedule: [
+    "Alternate weekly: Mon/Thu one week, Tue/Fri the next.",
+    "Leave room in that schedule for events and larger, fun items when they come up.",
+    "Use Stories specifically to share participants' experiences — that's what builds FOMO.",
+  ],
+  notes: [],
+};
+
 const DEFAULT_COMPANY_INFO: CompanyInfo[] = [
   {
     key: "sdc",
@@ -80,7 +89,7 @@ export default async function Home() {
 
   const events: CarsonEvent[] = (eventsRes.data as CarsonEvent[]) ?? [];
 
-  let daltonPage: DaltonPage = { posting_schedule: [], notes: [] };
+  let daltonPage: DaltonPage = DEFAULT_DALTON_PAGE;
   let filming: FilmingEvent[] = [];
 
   if (isAdmin) {

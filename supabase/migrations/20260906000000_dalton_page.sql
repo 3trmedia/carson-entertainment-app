@@ -20,3 +20,15 @@ create table if not exists carson_dalton_filming (
 
 alter table carson_dalton_page enable row level security;
 alter table carson_dalton_filming enable row level security;
+
+insert into carson_dalton_page (id, posting_schedule, notes)
+values (
+  1,
+  array[
+    'Alternate weekly: Mon/Thu one week, Tue/Fri the next.',
+    'Leave room in that schedule for events and larger, fun items when they come up.',
+    'Use Stories specifically to share participants'' experiences — that''s what builds FOMO.'
+  ],
+  '{}'
+)
+on conflict (id) do nothing;
