@@ -3,16 +3,10 @@
 import { useMemo, useState } from "react";
 import Image from "next/image";
 import { CarsonEvent, COMPANY_COLORS, COMPANY_NAMES, COMPANY_THUMB, CompanyInfo, CompanyKey, MAX_EVENTS_PER_COMPANY_PER_MONTH } from "@/lib/types";
+import { buildMonthGrid, pad, toISODate } from "@/lib/calendarGrid";
 
 const COMPANY_KEYS: CompanyKey[] = ["sdc", "wec", "smb"];
 const WEEKDAYS = ["S", "M", "T", "W", "T", "F", "S"];
-
-function pad(n: number) {
-  return String(n).padStart(2, "0");
-}
-function toISODate(y: number, m: number, d: number) {
-  return `${y}-${pad(m + 1)}-${pad(d)}`;
-}
 
 export default function EventsTab({
   initialEvents,
@@ -54,14 +48,7 @@ export default function EventsTab({
     return counts;
   }, [events, year, month]);
 
-  const grid = useMemo(() => {
-    const firstDay = new Date(year, month, 1).getDay();
-    const daysInMonth = new Date(year, month + 1, 0).getDate();
-    const cells: (number | null)[] = Array(firstDay).fill(null);
-    for (let d = 1; d <= daysInMonth; d++) cells.push(d);
-    while (cells.length % 7 !== 0) cells.push(null);
-    return cells;
-  }, [year, month]);
+  const grid = useMemo(() => buildMonthGrid(year, month), [year, month]);
 
   function changeMonth(delta: number) {
     setCursor(new Date(year, month + delta, 1));

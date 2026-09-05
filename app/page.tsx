@@ -1,6 +1,6 @@
 import { cookies } from "next/headers";
 import { getSupabaseAdmin } from "@/lib/supabaseAdmin";
-import { CarsonEvent, CompanyInfo, FocusState } from "@/lib/types";
+import { CarsonEvent, CompanyInfo, DaltonPage, FilmingEvent, FocusState } from "@/lib/types";
 import AppShell from "./AppShell";
 
 export const dynamic = "force-dynamic";
@@ -80,7 +80,28 @@ export default async function Home() {
 
   const events: CarsonEvent[] = (eventsRes.data as CarsonEvent[]) ?? [];
 
+  let daltonPage: DaltonPage = { posting_schedule: [], notes: [] };
+  let filming: FilmingEvent[] = [];
+
+  if (isAdmin) {
+    const [daltonRes, filmingRes] = await Promise.all([
+      supabase.from("carson_dalton_page").select("*").eq("id", 1).maybeSingle(),
+      supabase.from("carson_dalton_filming").select("*").order("filming_date"),
+    ]);
+    daltonPage = daltonRes.data
+      ? { posting_schedule: daltonRes.data.posting_schedule ?? [], notes: daltonRes.data.notes ?? [] }
+      : daltonPage;
+    filming = (filmingRes.data as FilmingEvent[]) ?? [];
+  }
+
   return (
-    <AppShell initialFocus={focus} initialCompanyInfo={companyInfo} initialEvents={events} isAdmin={isAdmin} />
+    <AppShell
+      initialFocus={focus}
+      initialCompanyInfo={companyInfo}
+      initialEvents={events}
+      initialDaltonPage={daltonPage}
+      initialFilming={filming}
+      isAdmin={isAdmin}
+    />
   );
 }

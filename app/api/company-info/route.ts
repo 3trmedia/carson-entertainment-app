@@ -1,13 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getSupabaseAdmin } from "@/lib/supabaseAdmin";
-
-function isAdmin(req: NextRequest) {
-  const cookie = req.cookies.get("carson_admin")?.value;
-  return !!cookie && cookie === process.env.CARSON_ADMIN_PASSCODE;
-}
+import { isAdminRequest } from "@/lib/adminAuth";
 
 export async function PUT(req: NextRequest) {
-  if (!isAdmin(req)) {
+  if (!isAdminRequest(req)) {
     return NextResponse.json({ error: "Admin access required." }, { status: 403 });
   }
 

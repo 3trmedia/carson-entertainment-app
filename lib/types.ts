@@ -44,3 +44,30 @@ export const COMPANY_THUMB: Record<CompanyKey, string> = {
 };
 
 export const MAX_EVENTS_PER_COMPANY_PER_MONTH = 3;
+
+export type VenueKey = "grove" | "sparks" | "barn";
+
+export const VENUE_NAMES: Record<VenueKey, string> = {
+  grove: "Grove Station",
+  sparks: "Sparks Museum",
+  barn: "The Barn",
+};
+
+export const VENUE_COLORS: Record<VenueKey, string> = {
+  grove: "#9b5de5",
+  sparks: "#f4a261",
+  barn: "#2ec4b6",
+};
+
+export interface FilmingEvent {
+  id: string;
+  venue: VenueKey;
+  filming_date: string;
+  notes: string | null;
+  created_at: string;
+}
+
+export interface DaltonPage {
+  posting_schedule: string[];
+  notes: string[];
+}

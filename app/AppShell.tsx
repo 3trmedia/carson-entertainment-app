@@ -3,13 +3,14 @@
 import { useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { CarsonEvent, CompanyInfo, FocusState } from "@/lib/types";
+import { CarsonEvent, CompanyInfo, DaltonPage, FilmingEvent, FocusState } from "@/lib/types";
 import AdminGate from "./AdminGate";
 import FocusTab from "./FocusTab";
 import ToolsTab from "./ToolsTab";
 import EventsTab from "./EventsTab";
+import DaltonTab from "./DaltonTab";
 
-type Tab = "focus" | "tools" | "events";
+type Tab = "focus" | "tools" | "events" | "dalton";
 
 function FocusIcon() {
   return (
@@ -43,27 +44,44 @@ function EventsIcon() {
   );
 }
 
-const TABS: { key: Tab; label: string; Icon: () => React.JSX.Element }[] = [
+function DaltonIcon() {
+  return (
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M3.5 8.5a1.5 1.5 0 0 1 1.5-1.5h2l1.2-1.8a1.5 1.5 0 0 1 1.25-.7h5.1a1.5 1.5 0 0 1 1.25.7L17 7h2a1.5 1.5 0 0 1 1.5 1.5v8A1.5 1.5 0 0 1 19 18H5a1.5 1.5 0 0 1-1.5-1.5z" />
+      <circle cx="12" cy="12.5" r="3.4" />
+    </svg>
+  );
+}
+
+const BASE_TABS: { key: Tab; label: string; Icon: () => React.JSX.Element }[] = [
   { key: "focus", label: "Focus", Icon: FocusIcon },
   { key: "tools", label: "Tools", Icon: ToolsIcon },
   { key: "events", label: "Events", Icon: EventsIcon },
 ];
 
+const DALTON_TAB = { key: "dalton" as Tab, label: "Dalton", Icon: DaltonIcon };
+
 export default function AppShell({
   initialFocus,
   initialCompanyInfo,
   initialEvents,
+  initialDaltonPage,
+  initialFilming,
   isAdmin,
 }: {
   initialFocus: FocusState;
   initialCompanyInfo: CompanyInfo[];
   initialEvents: CarsonEvent[];
+  initialDaltonPage: DaltonPage;
+  initialFilming: FilmingEvent[];
   isAdmin: boolean;
 }) {
   const router = useRouter();
   const [tab, setTab] = useState<Tab>("focus");
   const [companyInfo, setCompanyInfo] = useState(initialCompanyInfo);
   const [showAdminGate, setShowAdminGate] = useState(false);
+
+  const tabs = isAdmin ? [...BASE_TABS, DALTON_TAB] : BASE_TABS;
 
   return (
     <div className="app-shell">
@@ -89,10 +107,13 @@ export default function AppShell({
         )}
         {tab === "tools" && <ToolsTab />}
         {tab === "events" && <EventsTab initialEvents={initialEvents} companyInfo={companyInfo} />}
+        {tab === "dalton" && isAdmin && (
+          <DaltonTab initialDaltonPage={initialDaltonPage} initialFilming={initialFilming} />
+        )}
       </main>
 
       <nav className="tab-bar">
-        {TABS.map((t) => (
+        {tabs.map((t) => (
           <button key={t.key} className={`tab-btn ${tab === t.key ? "active" : ""}`} onClick={() => setTab(t.key)}>
             <span className="tab-icon">
               <t.Icon />
