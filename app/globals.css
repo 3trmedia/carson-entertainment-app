@@ -1,0 +1,489 @@
+@import url('https://fonts.googleapis.com/css2?family=Bitter:wght@500;600;700&family=Karla:wght@400;500;600;700&display=swap');
+
+:root {
+  --barnwood: #2b1d14;
+  --barnwood-2: #402a1c;
+  --rust: #8b3a2b;
+  --rust-dark: #6e2c20;
+  --tan: #c9a66b;
+  --tan-light: #e4cfa0;
+  --cream: #f5efe1;
+  --cork: #be8e56;
+  --cork-dark: #a97c48;
+  --ink: #241812;
+  --ink-soft: #5a4938;
+  --line: rgba(43, 29, 20, 0.16);
+  --card: #fffcf5;
+}
+
+* {
+  box-sizing: border-box;
+}
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+body {
+  background: var(--cream);
+  color: var(--ink);
+  font-family: "Karla", sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+.wrap {
+  max-width: 880px;
+  margin: 0 auto;
+  padding: 0 20px 60px;
+}
+
+.board-head {
+  background: var(--barnwood);
+  background-image: linear-gradient(180deg, var(--barnwood-2), var(--barnwood) 70%);
+  color: var(--cream);
+  padding: 36px 20px 30px;
+  border-bottom: 6px solid var(--rust);
+}
+.head-inner {
+  max-width: 880px;
+  margin: 0 auto;
+}
+.eyebrow {
+  font-family: "Karla", sans-serif;
+  font-size: 13px;
+  color: var(--tan-light);
+  margin: 0 0 6px;
+  letter-spacing: 0.02em;
+}
+.title {
+  font-family: "Bitter", serif;
+  font-weight: 700;
+  font-size: clamp(28px, 5vw, 40px);
+  margin: 0 0 14px;
+  line-height: 1.08;
+}
+.focus-line {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 10px 16px;
+  font-family: "Bitter", serif;
+}
+.focus-line .month {
+  font-size: 17px;
+  color: var(--tan-light);
+}
+.focus-line .company {
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--cream);
+}
+.badge {
+  display: inline-block;
+  background: var(--rust);
+  color: #fff;
+  font-family: "Karla", sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 3px 10px;
+  border-radius: 3px;
+}
+
+.block {
+  margin-top: 34px;
+}
+.block-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  border-bottom: 2px solid var(--ink);
+  padding-bottom: 8px;
+  margin-bottom: 16px;
+}
+.block-title {
+  font-family: "Bitter", serif;
+  font-size: 21px;
+  margin: 0;
+  font-weight: 700;
+}
+.text-btn {
+  background: none;
+  border: none;
+  color: var(--rust);
+  font-family: "Karla", sans-serif;
+  font-weight: 700;
+  font-size: 14px;
+  cursor: pointer;
+  padding: 4px 2px;
+}
+.text-btn:hover {
+  text-decoration: underline;
+}
+
+.goals-card {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-left: 5px solid var(--rust);
+  border-radius: 4px;
+  padding: 18px 22px;
+}
+.goals-card ul {
+  margin: 0;
+  padding-left: 20px;
+}
+.goals-card li {
+  margin-bottom: 8px;
+}
+.goals-card li:last-child {
+  margin-bottom: 0;
+}
+.empty-note {
+  color: var(--ink-soft);
+  font-style: italic;
+  margin: 0;
+}
+
+.edit-form {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  padding: 18px 22px;
+  margin-top: 12px;
+}
+.field {
+  margin-bottom: 14px;
+}
+.field label {
+  display: block;
+  font-weight: 700;
+  font-size: 13px;
+  margin-bottom: 5px;
+  color: var(--ink-soft);
+}
+.field select,
+.field input[type="text"],
+.field input[type="password"],
+.field textarea {
+  width: 100%;
+  font-family: "Karla", sans-serif;
+  font-size: 15px;
+  padding: 9px 10px;
+  border: 1px solid var(--line);
+  border-radius: 3px;
+  background: #fff;
+  color: var(--ink);
+}
+.field textarea {
+  min-height: 90px;
+  resize: vertical;
+}
+.form-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 6px;
+}
+
+.btn {
+  font-family: "Karla", sans-serif;
+  font-weight: 700;
+  font-size: 14px;
+  padding: 9px 18px;
+  border-radius: 3px;
+  border: 1px solid var(--rust);
+  background: var(--rust);
+  color: #fff;
+  cursor: pointer;
+}
+.btn:hover {
+  background: var(--rust-dark);
+}
+.btn.secondary {
+  background: transparent;
+  color: var(--ink);
+  border-color: var(--line);
+}
+.btn.secondary:hover {
+  background: rgba(0, 0, 0, 0.04);
+}
+.btn:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.company-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.company-card {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  overflow: hidden;
+}
+.company-toggle {
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 14px 18px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  font-family: "Bitter", serif;
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--ink);
+}
+.company-toggle .sub {
+  font-family: "Karla", sans-serif;
+  font-weight: 500;
+  font-size: 13px;
+  color: var(--ink-soft);
+  display: block;
+  margin-top: 2px;
+}
+.company-toggle .chev {
+  font-family: "Karla", sans-serif;
+  font-size: 13px;
+  color: var(--ink-soft);
+}
+.company-body {
+  padding: 0 18px 18px;
+}
+.company-body h4 {
+  font-family: "Karla", sans-serif;
+  font-size: 12px;
+  color: var(--rust);
+  margin: 14px 0 6px;
+  font-weight: 700;
+}
+.company-body h4:first-child {
+  margin-top: 4px;
+}
+.company-body ul {
+  margin: 0;
+  padding-left: 19px;
+}
+.company-body li {
+  margin-bottom: 5px;
+}
+
+.idea-board {
+  background: var(--cork);
+  background-image: radial-gradient(rgba(0, 0, 0, 0.06) 1px, transparent 1px);
+  background-size: 14px 14px;
+  border-radius: 6px;
+  padding: 20px;
+  border: 1px solid var(--cork-dark);
+}
+.idea-form {
+  background: var(--card);
+  border-radius: 4px;
+  padding: 16px 18px;
+  margin-bottom: 18px;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.18);
+}
+.idea-form .row {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.idea-form .row .field {
+  flex: 1;
+  min-width: 150px;
+}
+.filter-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 14px;
+  flex-wrap: wrap;
+}
+.filter-row span {
+  color: #fff;
+  font-size: 13px;
+  font-weight: 700;
+}
+.chip {
+  font-family: "Karla", sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  padding: 5px 12px;
+  border-radius: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  background: rgba(255, 255, 255, 0.12);
+  color: #fff;
+  cursor: pointer;
+}
+.chip.active {
+  background: #fff;
+  color: var(--cork-dark);
+  border-color: #fff;
+}
+
+.notes-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+  gap: 16px;
+}
+.note {
+  background: #fff7da;
+  padding: 16px 16px 14px;
+  border-radius: 2px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.22), 0 1px 0 rgba(255, 255, 255, 0.4) inset;
+  transform: rotate(var(--tilt, -1deg));
+  position: relative;
+}
+.note:nth-child(3n + 1) {
+  --tilt: -1.2deg;
+  background: #fff7da;
+}
+.note:nth-child(3n + 2) {
+  --tilt: 0.9deg;
+  background: #ffe9d6;
+}
+.note:nth-child(3n + 3) {
+  --tilt: -0.6deg;
+  background: #e8f1de;
+}
+.note .note-company {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--rust-dark);
+  margin-bottom: 8px;
+}
+.note p.note-text {
+  margin: 0 0 10px;
+  font-size: 14.5px;
+  color: var(--ink);
+}
+.note .note-foot {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 12px;
+  color: var(--ink-soft);
+}
+.note .del {
+  background: none;
+  border: none;
+  color: var(--ink-soft);
+  cursor: pointer;
+  font-size: 12px;
+  text-decoration: underline;
+}
+.note .del:hover {
+  color: var(--rust);
+}
+.no-ideas {
+  color: #fff;
+  font-style: italic;
+  padding: 10px 4px;
+}
+
+.status-msg {
+  font-size: 13px;
+  color: var(--ink-soft);
+  margin-top: 8px;
+  min-height: 18px;
+}
+.status-msg.error {
+  color: var(--rust-dark);
+}
+
+.note-foot-app {
+  text-align: center;
+  color: var(--ink-soft);
+  font-size: 12px;
+  padding: 30px 20px 10px;
+}
+
+.login-wrap {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--barnwood);
+  background-image: linear-gradient(180deg, var(--barnwood-2), var(--barnwood) 70%);
+  padding: 20px;
+}
+.login-card {
+  background: var(--card);
+  border-radius: 6px;
+  padding: 30px 28px;
+  max-width: 360px;
+  width: 100%;
+  border-top: 5px solid var(--rust);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
+}
+.login-title {
+  font-family: "Bitter", serif;
+  font-size: 24px;
+  margin: 0 0 20px;
+}
+.login-card label {
+  display: block;
+  font-weight: 700;
+  font-size: 13px;
+  margin-bottom: 6px;
+  color: var(--ink-soft);
+}
+.login-card input {
+  width: 100%;
+  font-size: 15px;
+  padding: 10px 11px;
+  border: 1px solid var(--line);
+  border-radius: 3px;
+  margin-bottom: 14px;
+}
+.login-card .btn {
+  width: 100%;
+}
+
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(36, 24, 18, 0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  z-index: 50;
+}
+.modal-card {
+  background: var(--card);
+  border-radius: 6px;
+  padding: 24px 22px;
+  max-width: 340px;
+  width: 100%;
+  border-top: 5px solid var(--rust);
+}
+.modal-card h3 {
+  font-family: "Bitter", serif;
+  margin: 0 0 6px;
+}
+.modal-sub {
+  font-size: 13px;
+  color: var(--ink-soft);
+  margin: 0 0 14px;
+}
+.modal-card input {
+  width: 100%;
+  font-size: 15px;
+  padding: 9px 10px;
+  border: 1px solid var(--line);
+  border-radius: 3px;
+  margin-bottom: 8px;
+}
+
+@media (max-width: 520px) {
+  .idea-form .row {
+    flex-direction: column;
+  }
+}

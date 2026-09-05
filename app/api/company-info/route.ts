@@ -1,0 +1,34 @@
+import { NextRequest, NextResponse } from "next/server";
+import { getSupabaseAdmin } from "@/lib/supabaseAdmin";
+
+function isAdmin(req: NextRequest) {
+  const cookie = req.cookies.get("carson_admin")?.value;
+  return !!cookie && cookie === process.env.CARSON_ADMIN_PASSCODE;
+}
+
+export async function PUT(req: NextRequest) {
+  if (!isAdmin(req)) {
+    return NextResponse.json({ error: "Admin access required." }, { status: 403 });
+  }
+
+  const body = await req.json().catch(() => null);
+  const key = body?.key;
+  const label = typeof body?.label === "string" ? body.label.trim() : "";
+  const sub = typeof body?.sub === "string" ? body.sub.trim() : "";
+  const baseline = Array.isArray(body?.baseline) ? body.baseline.filter((s: unknown) => typeof s === "string" && s.trim()) : [];
+  const focus = Array.isArray(body?.focus) ? body.focus.filter((s: unknown) => typeof s === "string" && s.trim()) : [];
+
+  if (!["sdc", "wec", "smb"].includes(key) || !label) {
+    return NextResponse.json({ error: "Missing key or label." }, { status: 400 });
+  }
+
+  const supabase = getSupabaseAdmin();
+  const { error } = await supabase
+    .from("carson_company_info")
+    .upsert({ key, label, sub, baseline, focus, updated_at: new Date().toISOString() });
+
+  if (error) {
+    return NextResponse.json({ error: error.message }, { status: 500 });
+  }
+  return NextResponse.json({ ok: true });
+}
