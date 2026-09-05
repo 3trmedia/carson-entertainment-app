@@ -489,15 +489,10 @@ body {
 }
 .accordion-sub-body {
   margin: 0;
-  padding: 0 14px 12px 30px;
-  font-size: 13px;
+  padding: 0 14px 12px 14px;
+  font-size: 13.5px;
+  line-height: 1.5;
   color: var(--muted);
-}
-.accordion-sub-body li {
-  margin-bottom: 6px;
-}
-.accordion-sub-body li:last-child {
-  margin-bottom: 0;
 }
 
 /* ---------- Events tab ---------- */

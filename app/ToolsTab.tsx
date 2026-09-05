@@ -4,7 +4,7 @@ import { useState } from "react";
 
 interface SubTopic {
   title: string;
-  body: string[];
+  body: string;
 }
 interface Category {
   key: string;
@@ -19,27 +19,15 @@ const CATEGORIES: Category[] = [
     subs: [
       {
         title: "Using AI Effectively",
-        body: [
-          "Claude can plan your month, write captions, and brainstorm ideas in minutes.",
-          "Bring it real problems: a slow week, a flop, a goal you're chasing.",
-          "Treat it like a working session, not a one-time question.",
-        ],
+        body: "Bring Claude real problems — planning, captions, ideas — and treat it like a working session, not a one-off question.",
       },
       {
         title: "Identifying Your Target Audience",
-        body: [
-          "Know where they hang out, online and in person.",
-          "Know what makes them stay at an event, and what makes them leave early.",
-          "Watch what they actually respond to, not just what you assume.",
-        ],
+        body: "Know where they hang out, what keeps them at an event, and what makes them leave early.",
       },
       {
         title: "Trying New Things",
-        body: [
-          "70% of your effort goes to what's already proven to work.",
-          "25% goes to safe, low-risk ideas worth testing.",
-          "5% goes to one bold swing, something genuinely new.",
-        ],
+        body: "Split effort 70% proven, 25% safe new ideas, 5% one bold swing worth testing.",
       },
     ],
   },
@@ -49,27 +37,15 @@ const CATEGORIES: Category[] = [
     subs: [
       {
         title: "Flyering Where Your Target Market Is",
-        body: [
-          "Go where your audience already spends time, not just anywhere with foot traffic.",
-          "Think gyms, feed stores, boot shops, wherever fits your crowd.",
-          "A flyer in the wrong place is wasted paper.",
-        ],
+        body: "Flyer where your audience already spends time — gyms, feed stores, boot shops — not just anywhere with traffic.",
       },
       {
         title: "Hosting or Teaching at Free Events",
-        body: [
-          "Offer to teach a class, host the bull, or hand out a free sample.",
-          "Let people experience it before they pay for it.",
-          "This builds trust faster than any ad can.",
-        ],
+        body: "Offer to teach a class, host the bull, or hand out a sample so people experience it first.",
       },
       {
         title: "Asking for Referrals",
-        body: [
-          "Ask happy customers directly, don't wait for them to think of it.",
-          "Make it easy: give them something to share or send.",
-          "A referral carries more weight than any post you make.",
-        ],
+        body: "Ask happy customers directly and give them something easy to share or send.",
       },
     ],
   },
@@ -79,27 +55,15 @@ const CATEGORIES: Category[] = [
     subs: [
       {
         title: "Plan 1-2 Months in Advance",
-        body: [
-          "We don't post on last-minute notice.",
-          "Build your content calendar before the month starts.",
-          "Last-minute posts feel rushed and perform worse.",
-        ],
+        body: "Build the content calendar before the month starts — no last-minute posts.",
       },
       {
         title: "Sustainability Over Trends",
-        body: [
-          "Don't chase every trend or post just to stay busy.",
-          "A steady pace beats a burst that burns you out.",
-          "Consistency matters more than volume.",
-        ],
+        body: "Keep a steady pace instead of chasing trends or burning out on volume.",
       },
       {
         title: "Promoting Larger Events",
-        body: [
-          "Use whisper, speak, shout: tease it, announce it, then push hard.",
-          "Spread it out, don't dump everything in one post.",
-          "Give people time to plan around it.",
-        ],
+        body: "Whisper the tease, speak the details, shout it hard the final week.",
       },
     ],
   },
@@ -109,27 +73,15 @@ const CATEGORIES: Category[] = [
     subs: [
       {
         title: "Why Separate Accounts Win",
-        body: [
-          "Followers should be there for your offer, not a sister company's.",
-          "A smaller, engaged audience beats a bigger one that scrolls past.",
-          "Keep each brand's voice and content distinct.",
-        ],
+        body: "Keep each brand distinct so followers are there for your offer, not a sister company's.",
       },
       {
         title: "Post With Intention",
-        body: [
-          "Fewer, stronger posts beat flooding the feed.",
-          "Posting too much trains people to tune you out.",
-          "Every post should earn its spot.",
-        ],
+        body: "Fewer, stronger posts beat flooding the feed — volume trains people to tune out.",
       },
       {
         title: "Keep Content Sorted by Brand",
-        body: [
-          "All dancing content belongs to Swingin Dance Co.",
-          "All western content, including buck-offs and bulldogging, belongs to WEC.",
-          "When in doubt, ask which brand it fits.",
-        ],
+        body: "Dancing content is Swingin Dance Co; western content, including buck-offs and bulldogging, is WEC.",
       },
     ],
   },
@@ -139,27 +91,15 @@ const CATEGORIES: Category[] = [
     subs: [
       {
         title: "Who to Contact",
-        body: [
-          "Everything at the Barn runs through Taft.",
-          "Reach out to him before you plan around the space.",
-          "He's the one who knows what's already booked.",
-        ],
+        body: "Everything at the Barn runs through Taft before you plan around the space.",
       },
       {
         title: "Getting Something Approved",
-        body: [
-          "Meetings, parties, and unplanned events need approval through Western Events.",
-          "Nothing happens at the Barn until it's approved and on the calendar.",
-          "Approval comes before promotion, not after.",
-        ],
+        body: "Meetings, parties, and unplanned events need approval through Western Events and a spot on the calendar.",
       },
       {
         title: "Booking It Ahead",
-        body: [
-          "The earlier you ask, the more likely you get the date.",
-          "Don't assume the space is open just because it looks empty.",
-          "Lock it in, then build your plans around it.",
-        ],
+        body: "Lock in the date early — don't assume the space is open just because it looks empty.",
       },
     ],
   },
@@ -169,27 +109,15 @@ const CATEGORIES: Category[] = [
     subs: [
       {
         title: "Don't Use Them",
-        body: [
-          "Discounts train your audience to wait for the next one.",
-          "Your price is your price.",
-          "If someone won't pay it, they're probably not your audience.",
-        ],
+        body: "Your price is your price — discounts train your audience to wait for the next one.",
       },
       {
         title: "No 2-for-1s or Percent-Off",
-        body: [
-          "Skip these unless it's planned well in advance for a real reason.",
-          "Never plan one just to boost a headcount.",
-          "A last-minute discount is a red flag, not a strategy.",
-        ],
+        body: "Skip these unless planned well in advance for a real reason, never just to boost numbers.",
       },
       {
         title: "Fix the Event, Not the Price",
-        body: [
-          "A discount to save a struggling event means weak planning, not a weak price.",
-          "Build a stronger event or offer instead of lowering the cost.",
-          "Confidence in the event sells better than a markdown.",
-        ],
+        body: "A last-minute discount means weak planning — build a stronger event instead of lowering the cost.",
       },
     ],
   },
@@ -229,13 +157,7 @@ export default function ToolsTab() {
                           <span>{sub.title}</span>
                           <span className="accordion-chev">{isOpen ? "−" : "+"}</span>
                         </button>
-                        {isOpen && (
-                          <ul className="accordion-sub-body">
-                            {sub.body.map((line, i) => (
-                              <li key={i}>{line}</li>
-                            ))}
-                          </ul>
-                        )}
+                        {isOpen && <p className="accordion-sub-body">{sub.body}</p>}
                       </div>
                     );
                   })}
