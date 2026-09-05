@@ -14,107 +14,181 @@ interface Category {
 
 const CATEGORIES: Category[] = [
   {
-    key: "planning",
-    label: "Planning",
+    key: "future",
+    label: "Mapping Out the Company's Future",
     subs: [
       {
-        title: "Venue & date lockdown",
+        title: "Using AI Effectively",
         body: [
-          "Confirm venue availability at least 6 weeks out.",
-          "Get the date locked on the Events tab as soon as it's real, not once it's official.",
-          "Block out setup and teardown time, not just the event window.",
+          "Claude can plan your month, write captions, and brainstorm ideas in minutes.",
+          "Bring it real problems: a slow week, a flop, a goal you're chasing.",
+          "Treat it like a working session, not a one-time question.",
         ],
       },
       {
-        title: "Staffing & roles",
+        title: "Identifying Your Target Audience",
         body: [
-          "Assign a day-of lead before promotion starts.",
-          "Assign a door/ticket person and a dedicated content shooter separately — don't double them up.",
+          "Know where they hang out, online and in person.",
+          "Know what makes them stay at an event, and what makes them leave early.",
+          "Watch what they actually respond to, not just what you assume.",
         ],
       },
       {
-        title: "Budget & ticketing",
+        title: "Trying New Things",
         body: [
-          "Set a target headcount and price point before any promotion goes out.",
-          "Track spend against the ad goal noted on the Focus tab.",
+          "70% of your effort goes to what's already proven to work.",
+          "25% goes to safe, low-risk ideas worth testing.",
+          "5% goes to one bold swing, something genuinely new.",
         ],
       },
     ],
   },
   {
-    key: "content",
-    label: "Content",
+    key: "in-person",
+    label: "In Person Marketing",
     subs: [
       {
-        title: "Shot list",
+        title: "Flyering Where Your Target Market Is",
         body: [
-          "Wide room shot, empty.",
-          "Wide room shot, full.",
-          "3 close-up candid shots (dancing, riding, crowd).",
-          "1 signage or branding shot.",
-          "1 vertical clip cut for stories.",
+          "Go where your audience already spends time, not just anywhere with foot traffic.",
+          "Think gyms, feed stores, boot shops, wherever fits your crowd.",
+          "A flyer in the wrong place is wasted paper.",
         ],
       },
       {
-        title: "Caption & hook prompts",
+        title: "Hosting or Teaching at Free Events",
         body: [
-          "“Write 3 hook options, under 8 words each, for a video announcing [event] at [company].”",
-          "“Turn this event recap into 5 short-form video hooks and 3 caption options.”",
+          "Offer to teach a class, host the bull, or hand out a free sample.",
+          "Let people experience it before they pay for it.",
+          "This builds trust faster than any ad can.",
         ],
       },
       {
-        title: "Recap content",
+        title: "Asking for Referrals",
         body: [
-          "Post the best clip within 24–48 hours while it's still relevant.",
-          "Save 2–3 strong clips for a later “best of” roundup instead of using everything at once.",
+          "Ask happy customers directly, don't wait for them to think of it.",
+          "Make it easy: give them something to share or send.",
+          "A referral carries more weight than any post you make.",
         ],
       },
     ],
   },
   {
-    key: "promotions",
-    label: "Promotions / Marketing",
+    key: "social",
+    label: "Social Media",
     subs: [
       {
-        title: "Whisper / speak / shout timeline",
+        title: "Plan 1-2 Months in Advance",
         body: [
-          "Whisper (leak it): ~3 weeks out.",
-          "Speak (full details): ~2 weeks out.",
-          "Shout (push hard): final week.",
+          "We don't post on last-minute notice.",
+          "Build your content calendar before the month starts.",
+          "Last-minute posts feel rushed and perform worse.",
         ],
       },
       {
-        title: "Ad templates",
+        title: "Sustainability Over Trends",
         body: [
-          "“Write a Meta ad headline and primary text for [event], emphasizing [family-friendly / date-night / group outing].”",
+          "Don't chase every trend or post just to stay busy.",
+          "A steady pace beats a burst that burns you out.",
+          "Consistency matters more than volume.",
         ],
       },
       {
-        title: "Cross-promotion",
+        title: "Promoting Larger Events",
         body: [
-          "SDC, WEC, and SMB can boost each other's flagship events on their own pages.",
-          "Only when it's genuinely on-brand for that audience — not every event, every time.",
+          "Use whisper, speak, shout: tease it, announce it, then push hard.",
+          "Spread it out, don't dump everything in one post.",
+          "Give people time to plan around it.",
         ],
       },
     ],
   },
   {
-    key: "day-of",
-    label: "Day-of Ops",
+    key: "cross-platform",
+    label: "Cross Platform Posting",
     subs: [
       {
-        title: "Day-of checklist",
+        title: "Why Separate Accounts Win",
         body: [
-          "Confirm equipment/sound arrival time.",
-          "Confirm staff arrival time.",
-          "Confirm signage is up before doors open.",
-          "Confirm who's shooting content and when.",
+          "Followers should be there for your offer, not a sister company's.",
+          "A smaller, engaged audience beats a bigger one that scrolls past.",
+          "Keep each brand's voice and content distinct.",
         ],
       },
       {
-        title: "Vendor & equipment",
+        title: "Post With Intention",
         body: [
-          "Confirm any rented equipment (sound, mechanical bull, extra seating) a full week out, not the day before.",
+          "Fewer, stronger posts beat flooding the feed.",
+          "Posting too much trains people to tune you out.",
+          "Every post should earn its spot.",
+        ],
+      },
+      {
+        title: "Keep Content Sorted by Brand",
+        body: [
+          "All dancing content belongs to Swingin Dance Co.",
+          "All western content, including buck-offs and bulldogging, belongs to WEC.",
+          "When in doubt, ask which brand it fits.",
+        ],
+      },
+    ],
+  },
+  {
+    key: "venue-barn",
+    label: "Venue Usage | The Barn",
+    subs: [
+      {
+        title: "Who to Contact",
+        body: [
+          "Everything at the Barn runs through Taft.",
+          "Reach out to him before you plan around the space.",
+          "He's the one who knows what's already booked.",
+        ],
+      },
+      {
+        title: "Getting Something Approved",
+        body: [
+          "Meetings, parties, and unplanned events need approval through Western Events.",
+          "Nothing happens at the Barn until it's approved and on the calendar.",
+          "Approval comes before promotion, not after.",
+        ],
+      },
+      {
+        title: "Booking It Ahead",
+        body: [
+          "The earlier you ask, the more likely you get the date.",
+          "Don't assume the space is open just because it looks empty.",
+          "Lock it in, then build your plans around it.",
+        ],
+      },
+    ],
+  },
+  {
+    key: "discounts",
+    label: "Discounts",
+    subs: [
+      {
+        title: "Don't Use Them",
+        body: [
+          "Discounts train your audience to wait for the next one.",
+          "Your price is your price.",
+          "If someone won't pay it, they're probably not your audience.",
+        ],
+      },
+      {
+        title: "No 2-for-1s or Percent-Off",
+        body: [
+          "Skip these unless it's planned well in advance for a real reason.",
+          "Never plan one just to boost a headcount.",
+          "A last-minute discount is a red flag, not a strategy.",
+        ],
+      },
+      {
+        title: "Fix the Event, Not the Price",
+        body: [
+          "A discount to save a struggling event means weak planning, not a weak price.",
+          "Build a stronger event or offer instead of lowering the cost.",
+          "Confidence in the event sells better than a markdown.",
         ],
       },
     ],
