@@ -1,7 +1,7 @@
 import { cookies } from "next/headers";
 import { getSupabaseAdmin } from "@/lib/supabaseAdmin";
-import { CompanyInfo, FocusState, Idea } from "@/lib/types";
-import Board from "./Board";
+import { CarsonEvent, CompanyInfo, FocusState, Idea } from "@/lib/types";
+import AppShell from "./AppShell";
 
 export const dynamic = "force-dynamic";
 
@@ -21,6 +21,7 @@ const DEFAULT_COMPANY_INFO: CompanyInfo[] = [
       "Flyers and story posts sprinkled in before and during event week",
       "Flagship event (like a country prom) targeted at least once a quarter",
     ],
+    next_focus_date: null,
   },
   {
     key: "wec",
@@ -37,6 +38,7 @@ const DEFAULT_COMPANY_INFO: CompanyInfo[] = [
       "Direction: more concerts, a learn-to-rope night, hangout nights, indoor pickleball, a year-round western events calendar",
       "Dance Co's Instagram can promote WEC events, only when they're on-brand for that audience",
     ],
+    next_focus_date: null,
   },
   {
     key: "smb",
@@ -53,6 +55,7 @@ const DEFAULT_COMPANY_INFO: CompanyInfo[] = [
       "Dedicated page stays light on posting since people follow for experiences, not services",
       "Ad goal: $10k/month, roughly 12 rentals (about 3 a week)",
     ],
+    next_focus_date: null,
   },
 ];
 
@@ -62,10 +65,11 @@ export default async function Home() {
 
   const supabase = getSupabaseAdmin();
 
-  const [focusRes, companyRes, ideasRes] = await Promise.all([
+  const [focusRes, companyRes, ideasRes, eventsRes] = await Promise.all([
     supabase.from("carson_focus_state").select("*").eq("id", 1).maybeSingle(),
     supabase.from("carson_company_info").select("*").order("key"),
     supabase.from("carson_ideas").select("*").order("created_at", { ascending: false }),
+    supabase.from("carson_events").select("*").order("event_date"),
   ]);
 
   const focus: FocusState = focusRes.data
@@ -76,6 +80,15 @@ export default async function Home() {
     companyRes.data && companyRes.data.length > 0 ? (companyRes.data as CompanyInfo[]) : DEFAULT_COMPANY_INFO;
 
   const ideas: Idea[] = (ideasRes.data as Idea[]) ?? [];
+  const events: CarsonEvent[] = (eventsRes.data as CarsonEvent[]) ?? [];
 
-  return <Board initialFocus={focus} initialCompanyInfo={companyInfo} initialIdeas={ideas} isAdmin={isAdmin} />;
+  return (
+    <AppShell
+      initialFocus={focus}
+      initialCompanyInfo={companyInfo}
+      initialIdeas={ideas}
+      initialEvents={events}
+      isAdmin={isAdmin}
+    />
+  );
 }

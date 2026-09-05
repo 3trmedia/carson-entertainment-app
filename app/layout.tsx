@@ -1,9 +1,18 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Carson Portfolio — Monthly Focus Board",
-  description: "Monthly focus, company reference notes, and the shared idea board for the Carson portfolio.",
+  title: "Carson Portfolio",
+  description: "Monthly focus, ideas, and the events calendar for the Carson portfolio.",
+};
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 1,
+  userScalable: false,
+  viewportFit: "cover",
+  themeColor: "#0c0c0c",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
