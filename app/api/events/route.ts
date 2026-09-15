@@ -2,12 +2,15 @@ import { NextRequest, NextResponse } from "next/server";
 import { getSupabaseAdmin } from "@/lib/supabaseAdmin";
 import { MAX_EVENTS_PER_COMPANY_PER_MONTH } from "@/lib/types";
 
+const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+
 export async function POST(req: NextRequest) {
   const body = await req.json().catch(() => null);
   const company = body?.company;
   const title = typeof body?.title === "string" ? body.title.trim().slice(0, 120) : "";
   const eventDate = typeof body?.event_date === "string" ? body.event_date : "";
   const notes = typeof body?.notes === "string" ? body.notes.trim().slice(0, 1000) : "";
+  const id = typeof body?.id === "string" && UUID_RE.test(body.id) ? body.id : undefined;
 
   if (!["sdc", "wec", "smb"].includes(company) || !title || !/^\d{4}-\d{2}-\d{2}$/.test(eventDate)) {
     return NextResponse.json({ error: "Missing company, title, or a valid date." }, { status: 400 });
@@ -20,12 +23,14 @@ export async function POST(req: NextRequest) {
     const [y, m] = eventDate.split("-").map(Number);
     const nextMonth = new Date(Date.UTC(y, m, 1)).toISOString().slice(0, 10);
 
-    const { count, error: countError } = await supabase
+    let countQuery = supabase
       .from("carson_events")
       .select("id", { count: "exact", head: true })
       .eq("company", company)
       .gte("event_date", monthStart)
       .lt("event_date", nextMonth);
+    if (id) countQuery = countQuery.neq("id", id);
+    const { count, error: countError } = await countQuery;
 
     if (countError) {
       return NextResponse.json({ error: countError.message }, { status: 500 });
@@ -40,7 +45,7 @@ export async function POST(req: NextRequest) {
 
   const { data, error } = await supabase
     .from("carson_events")
-    .insert({ company, title, event_date: eventDate, notes: notes || null })
+    .upsert(id ? { id, company, title, event_date: eventDate, notes: notes || null } : { company, title, event_date: eventDate, notes: notes || null })
     .select()
     .single();
 

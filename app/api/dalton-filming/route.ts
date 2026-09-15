@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from "next/server";
 import { getSupabaseAdmin } from "@/lib/supabaseAdmin";
 import { isAdminRequest } from "@/lib/adminAuth";
 
+const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+
 export async function POST(req: NextRequest) {
   if (!isAdminRequest(req)) {
     return NextResponse.json({ error: "Admin access required." }, { status: 403 });
@@ -11,6 +13,7 @@ export async function POST(req: NextRequest) {
   const venue = body?.venue;
   const filmingDate = typeof body?.filming_date === "string" ? body.filming_date : "";
   const notes = typeof body?.notes === "string" ? body.notes.trim().slice(0, 1000) : "";
+  const id = typeof body?.id === "string" && UUID_RE.test(body.id) ? body.id : undefined;
 
   if (!["grove", "sparks", "barn"].includes(venue) || !/^\d{4}-\d{2}-\d{2}$/.test(filmingDate)) {
     return NextResponse.json({ error: "Missing venue or a valid date." }, { status: 400 });
@@ -19,7 +22,7 @@ export async function POST(req: NextRequest) {
   const supabase = getSupabaseAdmin();
   const { data, error } = await supabase
     .from("carson_dalton_filming")
-    .insert({ venue, filming_date: filmingDate, notes: notes || null })
+    .upsert(id ? { id, venue, filming_date: filmingDate, notes: notes || null } : { venue, filming_date: filmingDate, notes: notes || null })
     .select()
     .single();
 

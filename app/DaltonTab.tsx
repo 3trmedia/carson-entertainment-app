@@ -3,6 +3,7 @@
 import { useMemo, useState } from "react";
 import { DaltonPage, FilmingEvent, VENUE_COLORS, VENUE_NAMES, VenueKey } from "@/lib/types";
 import { buildMonthGrid, toISODate } from "@/lib/calendarGrid";
+import { writeOrQueue } from "@/lib/offline/sync";
 
 const VENUE_KEYS: VenueKey[] = ["grove", "sparks", "barn"];
 const WEEKDAYS = ["S", "M", "T", "W", "T", "F", "S"];
@@ -119,53 +120,40 @@ export default function DaltonTab({
   }
 
   async function savePosting(items: string[]) {
-    const res = await fetch("/api/dalton", {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ posting_schedule: items, notes }),
-    });
-    if (!res.ok) return false;
-    setPostingSchedule(items.filter((s) => s.trim()));
+    const cleaned = items.filter((s) => s.trim());
+    setPostingSchedule(cleaned);
+    await writeOrQueue({ method: "PUT", url: "/api/dalton", body: { posting_schedule: items, notes } });
     return true;
   }
 
   async function saveNotes(items: string[]) {
-    const res = await fetch("/api/dalton", {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ posting_schedule: postingSchedule, notes: items }),
-    });
-    if (!res.ok) return false;
-    setNotes(items.filter((s) => s.trim()));
+    const cleaned = items.filter((s) => s.trim());
+    setNotes(cleaned);
+    await writeOrQueue({ method: "PUT", url: "/api/dalton", body: { posting_schedule: postingSchedule, notes: items } });
     return true;
   }
 
   async function addFilming() {
     if (!selectedDate) return;
     setAddSaving(true);
-    setAddStatus("Saving…");
-    const res = await fetch("/api/dalton-filming", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ venue: newVenue, filming_date: selectedDate, notes: newNotes.trim() }),
-    });
-    setAddSaving(false);
-    if (!res.ok) {
-      const body = await res.json().catch(() => null);
-      setAddStatus(body?.error || "Could not save. Try again.");
-      return;
-    }
-    const { event } = await res.json();
+    const notes = newNotes.trim();
+    const event: FilmingEvent = {
+      id: crypto.randomUUID(),
+      venue: newVenue,
+      filming_date: selectedDate,
+      notes: notes || null,
+      created_at: new Date().toISOString(),
+    };
     setFilming((prev) => [...prev, event]);
     setNewNotes("");
     setAddStatus("");
+    setAddSaving(false);
+    await writeOrQueue({ method: "POST", url: "/api/dalton-filming", body: { ...event } });
   }
 
   async function deleteFilming(id: string) {
-    const prev = filming;
-    setFilming(filming.filter((f) => f.id !== id));
-    const res = await fetch(`/api/dalton-filming?id=${id}`, { method: "DELETE" });
-    if (!res.ok) setFilming(prev);
+    setFilming((prev) => prev.filter((f) => f.id !== id));
+    await writeOrQueue({ method: "DELETE", url: `/api/dalton-filming?id=${id}` });
   }
 
   const dayFilming = selectedDate ? filmingByDate[selectedDate] ?? [] : [];

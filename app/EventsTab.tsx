@@ -4,6 +4,7 @@ import { useMemo, useState } from "react";
 import Image from "next/image";
 import { CarsonEvent, COMPANY_COLORS, COMPANY_NAMES, COMPANY_THUMB, CompanyInfo, CompanyKey, MAX_EVENTS_PER_COMPANY_PER_MONTH } from "@/lib/types";
 import { buildMonthGrid, pad, toISODate } from "@/lib/calendarGrid";
+import { writeOrQueue } from "@/lib/offline/sync";
 
 const COMPANY_KEYS: CompanyKey[] = ["sdc", "wec", "smb"];
 const WEEKDAYS = ["S", "M", "T", "W", "T", "F", "S"];
@@ -62,30 +63,26 @@ export default function EventsTab({
       return;
     }
     setAddSaving(true);
-    setAddStatus("Saving…");
-    const res = await fetch("/api/events", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ company: newCompany, title, event_date: selectedDate, notes: newNotes.trim() }),
-    });
-    setAddSaving(false);
-    if (!res.ok) {
-      const body = await res.json().catch(() => null);
-      setAddStatus(body?.error || "Could not save. Try again.");
-      return;
-    }
-    const { event } = await res.json();
+    const notes = newNotes.trim();
+    const event: CarsonEvent = {
+      id: crypto.randomUUID(),
+      company: newCompany,
+      title,
+      event_date: selectedDate,
+      notes: notes || null,
+      created_at: new Date().toISOString(),
+    };
     setEvents((prev) => [...prev, event]);
     setNewTitle("");
     setNewNotes("");
     setAddStatus("");
+    setAddSaving(false);
+    await writeOrQueue({ method: "POST", url: "/api/events", body: { ...event } });
   }
 
   async function deleteEvent(id: string) {
-    const prev = events;
-    setEvents(events.filter((e) => e.id !== id));
-    const res = await fetch(`/api/events?id=${id}`, { method: "DELETE" });
-    if (!res.ok) setEvents(prev);
+    setEvents((prev) => prev.filter((e) => e.id !== id));
+    await writeOrQueue({ method: "DELETE", url: `/api/events?id=${id}` });
   }
 
   const dayEvents = selectedDate ? eventsByDate[selectedDate] ?? [] : [];

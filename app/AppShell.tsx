@@ -9,6 +9,7 @@ import FocusTab from "./FocusTab";
 import ToolsTab from "./ToolsTab";
 import EventsTab from "./EventsTab";
 import DaltonTab from "./DaltonTab";
+import OfflineSync from "./OfflineSync";
 
 type Tab = "focus" | "tools" | "events" | "dalton";
 
@@ -85,6 +86,7 @@ export default function AppShell({
 
   return (
     <div className="app-shell">
+      <OfflineSync />
       <header className="top-bar">
         <span className="top-bar-brand">
           <Image src="/icon-192.png" alt="" width={26} height={26} className="top-bar-logo" />

@@ -4,6 +4,7 @@ import { useMemo, useState } from "react";
 import Image from "next/image";
 import { COMPANY_NAMES, COMPANY_THUMB, CompanyInfo, CompanyKey, FocusState } from "@/lib/types";
 import { currentFocusCompany, currentFocusPeriodStart, nextStartDateFor } from "@/lib/rotation";
+import { writeOrQueue } from "@/lib/offline/sync";
 
 function formatMonthDay(d: Date) {
   return d.toLocaleDateString(undefined, { month: "long", day: "numeric" });
@@ -57,20 +58,12 @@ export default function FocusTab({
 
   async function saveFocus() {
     setFocusSaving(true);
-    setFocusStatus("Saving…");
-    const res = await fetch("/api/focus", {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ company: activeCompany, month: activeMonthLabel, goals: goalsDraft }),
-    });
-    setFocusSaving(false);
-    if (!res.ok) {
-      setFocusStatus("Could not save. Try again.");
-      return;
-    }
+    const body = { company: activeCompany, month: activeMonthLabel, goals: goalsDraft };
     setGoals(goalsDraft);
+    setFocusSaving(false);
     setEditingFocus(false);
     setFocusStatus("");
+    await writeOrQueue({ method: "PUT", url: "/api/focus", body });
   }
 
   function startEditDetail(c: CompanyInfo) {
@@ -86,19 +79,11 @@ export default function FocusTab({
   async function saveDetail() {
     if (!detailDraft) return;
     setDetailSaving(true);
-    setDetailStatus("Saving…");
-    const res = await fetch("/api/company-info", {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(detailDraft),
-    });
-    setDetailSaving(false);
-    if (!res.ok) {
-      setDetailStatus("Could not save. Try again.");
-      return;
-    }
     setCompanyInfo((prev) => prev.map((c) => (c.key === detailDraft.key ? detailDraft : c)));
+    setDetailSaving(false);
     setEditingDetailFor(null);
+    setDetailStatus("");
+    await writeOrQueue({ method: "PUT", url: "/api/company-info", body: detailDraft as unknown as Record<string, unknown> });
   }
 
   return (
