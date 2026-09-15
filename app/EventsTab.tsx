@@ -89,7 +89,7 @@ export default function EventsTab({
   }
 
   const dayEvents = selectedDate ? eventsByDate[selectedDate] ?? [] : [];
-  const companyAtLimit = monthCountByCompany[newCompany] >= MAX_EVENTS_PER_COMPANY_PER_MONTH;
+  const companyAtLimit = newCompany !== "smb" && monthCountByCompany[newCompany] >= MAX_EVENTS_PER_COMPANY_PER_MONTH;
 
   return (
     <div className="tab-pane">
@@ -102,7 +102,7 @@ export default function EventsTab({
               <span className="legend-dot" style={{ background: COMPANY_COLORS[c.key] }} />
               {c.label}
               <span className="legend-count">
-                {monthCountByCompany[c.key]}/{MAX_EVENTS_PER_COMPANY_PER_MONTH}
+                {c.key === "smb" ? monthCountByCompany[c.key] : `${monthCountByCompany[c.key]}/${MAX_EVENTS_PER_COMPANY_PER_MONTH}`}
               </span>
             </span>
           ))}
@@ -189,7 +189,9 @@ export default function EventsTab({
               <select value={newCompany} onChange={(e) => setNewCompany(e.target.value as CompanyKey)}>
                 {COMPANY_KEYS.map((k) => (
                   <option key={k} value={k}>
-                    {COMPANY_NAMES[k]} ({monthCountByCompany[k]}/{MAX_EVENTS_PER_COMPANY_PER_MONTH} this month)
+                    {COMPANY_NAMES[k]} (
+                    {k === "smb" ? `${monthCountByCompany[k]} this month` : `${monthCountByCompany[k]}/${MAX_EVENTS_PER_COMPANY_PER_MONTH} this month`}
+                    )
                   </option>
                 ))}
               </select>

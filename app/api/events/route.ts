@@ -15,25 +15,27 @@ export async function POST(req: NextRequest) {
 
   const supabase = getSupabaseAdmin();
 
-  const monthStart = eventDate.slice(0, 8) + "01";
-  const [y, m] = eventDate.split("-").map(Number);
-  const nextMonth = new Date(Date.UTC(y, m, 1)).toISOString().slice(0, 10);
+  if (company !== "smb") {
+    const monthStart = eventDate.slice(0, 8) + "01";
+    const [y, m] = eventDate.split("-").map(Number);
+    const nextMonth = new Date(Date.UTC(y, m, 1)).toISOString().slice(0, 10);
 
-  const { count, error: countError } = await supabase
-    .from("carson_events")
-    .select("id", { count: "exact", head: true })
-    .eq("company", company)
-    .gte("event_date", monthStart)
-    .lt("event_date", nextMonth);
+    const { count, error: countError } = await supabase
+      .from("carson_events")
+      .select("id", { count: "exact", head: true })
+      .eq("company", company)
+      .gte("event_date", monthStart)
+      .lt("event_date", nextMonth);
 
-  if (countError) {
-    return NextResponse.json({ error: countError.message }, { status: 500 });
-  }
-  if ((count ?? 0) >= MAX_EVENTS_PER_COMPANY_PER_MONTH) {
-    return NextResponse.json(
-      { error: `This company already has ${MAX_EVENTS_PER_COMPANY_PER_MONTH} major events that month.` },
-      { status: 409 }
-    );
+    if (countError) {
+      return NextResponse.json({ error: countError.message }, { status: 500 });
+    }
+    if ((count ?? 0) >= MAX_EVENTS_PER_COMPANY_PER_MONTH) {
+      return NextResponse.json(
+        { error: `This company already has ${MAX_EVENTS_PER_COMPANY_PER_MONTH} major events that month.` },
+        { status: 409 }
+      );
+    }
   }
 
   const { data, error } = await supabase
